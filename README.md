@@ -4,6 +4,17 @@ Ce projet est une application de commerce électronique développée avec Django
 
 
 ## Outils utilises : Python 3 , Django, PostgreSql, github
+# installation de django
+pip install django
+# demarrer un projet django
+python -m django startprojet nom du projet(mon_projet_ecommerce)
+# a l'interieur du projet on va creer pluseurs applications
+
+# pour creer une applicaion : python manager.py startapp apibackend
+
+# relions notre projet a notre aplication apibackend(setting.py)
+
+
 
 
 
@@ -17,7 +28,7 @@ $ . env/bin/activate
 # Installez les dépendances
 $ pip install -r requirements.txt
 
-# Initialisez la Database
+# Initialisez la Database create database (ses commandes permettent de crer mes tables en Bases de donnes)
 python manage.py makemigrations
 $ python manage.py migrate
 
@@ -62,3 +73,27 @@ Sélection des méthodes de paiement (carte bancaire, PayPal, etc.)
 Confirmation et récapitulatif de la commande
 
 Ce projet n'est pas sous la licenc
+
+relation entre les differentes tables de la BD
+Un produit appartient à une seule catégorie (ForeignKey), mais une catégorie peut avoir plusieurs produits (related_name='produits').
+Un avis est associé à un seul produit (ForeignKey), mais un produit peut avoir plusieurs avis (related_name='avis').
+Un utilisateur a un seul panier (OneToOneField).
+Un panier peut contenir plusieurs articles (ForeignKey), et chaque article est associé à un produit.
+Un utilisateur peut passer plusieurs commandes (ForeignKey).
+Une commande peut avoir plusieurs détails (ForeignKey), et chaque détail est associé à un produit.
+Une commande a une seule transaction associée (OneToOneField).
+Une commande a une seule expédition associée (OneToOneField).
+
+
+
+### Résumé
+
+Voici un résumé des étapes :
+
+1. **Modèles Django** : Définir les modèles dans `models.py` pour représenter tes tables PostgreSQL.
+2. **Sérializers** : Créer des sérializers dans `serializers.py` pour convertir les données des modèles en JSON et vice versa.
+3. **Vues API** : Mettre en place des vues pour les API dans `views.py` en utilisant `viewsets` pour des opérations CRUD.
+4. **Routage** : Configurer les routes dans `urls.py` pour exposer tes API.
+5. **Paramètres** : Ajuster les paramètres de Django REST framework dans `settings.py`.
+
+

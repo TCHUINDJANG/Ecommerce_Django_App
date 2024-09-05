@@ -17,9 +17,21 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path , include
 from django.urls import path, re_path
+from rest_framework.routers import DefaultRouter
+#from .views import CategorieViewSet, ProduitViewSet, PanierViewSet, ArticleDuPanierViewSet, CommandeViewSet, DetailCommandeViewSet, AvisViewSet, TransactionViewSet, ExpeditionViewSet
 
 
 
+router = DefaultRouter()
+#router.register(r'categories', CategorieViewSet)
+#router.register(r'produits', ProduitViewSet)
+#router.register(r'paniers', PanierViewSet)
+#router.register(r'articles-du-panier', ArticleDuPanierViewSet)
+#router.register(r'commandes', CommandeViewSet)
+#router.register(r'details-commandes', DetailCommandeViewSet)
+#router.register(r'avis', AvisViewSet)
+#router.register(r'transactions', TransactionViewSet)
+#router.register(r'expeditions', ExpeditionViewSet)
 
 
 
@@ -27,7 +39,9 @@ from django.urls import path, re_path
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include('produit.urls')),
+    path('api/', include('produit.urls'), name="produit"),
+
+   # path('', include(router.urls)),
     
 ]
 
