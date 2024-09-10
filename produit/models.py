@@ -27,7 +27,7 @@ class produits(models.Model):
     prix = models.FloatField()
     description = models.TextField()
     category = models.ForeignKey(Category, related_name='categorie',on_delete=models.CASCADE)
-    image = models.CharField(max_length=5000)
+    image = models.CharField( max_length=5000)
     date_ajout = models.DateTimeField(auto_now=True)
     stock = models.PositiveIntegerField()
 
@@ -36,7 +36,7 @@ class produits(models.Model):
 
       
     def __str__(self):
-        return self.titre
+        return f"{self.titre} ({self.stock})"
 
 
 class Commande(models.Model):
@@ -47,6 +47,7 @@ class Commande(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     transaction_id = models.CharField(max_length=200, null=True)
 
+    #permet de representer notre instance sous forme de chaine de caracterer
     def __str__(self):
         return f'Order {self.id} by {self.customer_name}'
 
@@ -74,8 +75,10 @@ class Avis(models.Model):
     
 class Panier(models.Model):
     utilisateur = models.OneToOneField(User, on_delete=models.CASCADE)
-    date_creation = models.DateTimeField(auto_now_add=True)
-    
+    date_creation_commande = models.DateTimeField(blank=True,null=True)
+    ordered = models.BooleanField(default=False)
+
+
     def __str__(self):
         return f'Panier de {self.utilisateur.username}'
 
@@ -117,4 +120,13 @@ class Expedition(models.Model):
     
     def __str__(self):
         return f'Expédition {self.commande.id} - {self.statut}'
+    
+class Commentaire(models.Model):
+        commentaire = models.OneToOneField(User, on_delete=models.CASCADE)
+        adresse_expedition = models.TextField()
+        date_commentaire = models.DateTimeField()
+        statut = models.CharField(max_length=100)
+    
+        def __str__(self):
+            return f'Expédition {self.commande.id} - {self.statut}'
 # Create your models here.

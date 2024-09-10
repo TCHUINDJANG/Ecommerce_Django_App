@@ -12,6 +12,10 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
+import _locale
+_locale._getdefaultlocale = (lambda *args: ['en_US', 'utf8'])
+from dotenv import load_dotenv
+from decouple import config
 
 
 
@@ -64,7 +68,7 @@ ROOT_URLCONF = 'mon_projet_ecommerce.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [ os.path.join(BASE_DIR,'templates')],
+        'DIRS': [BASE_DIR / "template"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -85,14 +89,21 @@ WSGI_APPLICATION = 'mon_projet_ecommerce.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'Ecommerce',
-        'USER': 'postgre',
-        'PASSWORD': 'root',
-        'HOST': 'localhost',
-        'PORT': '5432' 
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': config('DB_NAME'),
+#         'USER': config('DB_HOST'),
+#         'PASSWORD': config('DB_PASSWORD'),
+#         'HOST':config('DB_HOST'),
+#         'PORT':config('DB_PORT',default='5432')
+#     }
+# }
 
 
 
@@ -118,7 +129,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'fr-fr'
 
 TIME_ZONE = 'UTC'
 

@@ -1,0 +1,42 @@
+# Définir l'image Docker utilisée pour les builds
+image: python:3.9
+
+# Définir les variables d'environnement globales
+variables:
+  DJANGO_SETTINGS_MODULE: myproject.settings
+  PYTHONPATH: "${PYTHONPATH}:${CI_PROJECT_DIR}"
+  DATABASE_URL: postgres://postgres:postgres@postgres:5432/postgres
+
+  # Définir les étapes du pipeline
+stages:
+  - test
+  - deploy
+
+  # Job pour exécuter les tests
+test:
+  stage: test
+  services:
+    - postgres:latest
+  before_script:
+    - pip install -r requirements.txt
+    - python manage.py migrate
+  script:
+    - python manage.py test
+  artifacts:
+    reports:
+      junit:
+        - test-results.xml
+    paths:
+      - test-results/
+
+      # Job pour déployer l'application
+deploy:
+  stage: deploy
+  script:
+    - echo "Déploiement en cours"
+    # Ajoutez ici les commandes de déploiement pour votre environnement
+    #remplacer user@server, /path/to/app, et systemctl restart app par mes propres valeurs 
+    - apt-get update && apt-get install -y ssh
+    - ssh user@server 'cd /path/to/app && git pull && systemctl restart app'
+  only:
+    - master

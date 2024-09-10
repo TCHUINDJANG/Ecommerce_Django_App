@@ -78,7 +78,9 @@ class CategorieViewSet(APIView):
          liste_categories = models.Category.objects.all()
          serialiser_object = CategorieSerializer(liste_categories , many=True)
          return JsonResponse(serialiser_object.data , safe=False)
-    
+
+
+
  
 
        
