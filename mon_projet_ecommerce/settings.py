@@ -48,6 +48,10 @@ INSTALLED_APPS = [
     'drf_yasg',
     'produit',
     'django.contrib.staticfiles',
+    'users',
+    'payement',
+    'order',
+    'category',
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
@@ -141,6 +145,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
+ADMIN_URL = "admin/"
 
 #STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
