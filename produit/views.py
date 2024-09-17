@@ -8,41 +8,35 @@ from . import models
 from rest_framework.views import APIView
 from rest_framework import status
 from .serialize import CategorieSerializer, ProduitsSerializer, PanierSerializer, ArticleDuPanierSerializer, CommandeSerializer, DetailCommandeSerializer, AvisSerializer, TransactionSerializer, ExpeditionSerializer
+from rest_framework import viewsets
+from rest_framework.response import Response
+from .models import *
 
+class produitViewSet(viewsets.ModelViewSet):
+    queryset = produits.objects.all()
+    serializer_class = ProduitsSerializer
 
-
-#request est une instance de HTTPREQUEST
-
-class produitViewSet(APIView):
-
-    def produit_list_get(request):
-     if request.method == 'GET':
-        liste_produits = models.produits.objects.all()
-        produit_serializer = ProduitsSerializer(liste_produits, many=True)
-        return JsonResponse(produit_serializer.data, safe=False)
-
-     elif request.method == 'POST':
+    def create(self, request, *args, **kwargs):
         produit_data = JSONParser().parse(request)
         produit_serializer = ProduitsSerializer(data=produit_data)
         if produit_serializer.is_valid():
             produit_serializer.save()
-            return JsonResponse("Ajout du produit avec success", status=status.HTTP_201_CREATED) 
-        return JsonResponse(produit_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-       
-     elif request.method == 'PUT': 
-        produit_data = JSONParser().parse(request) 
-        produit = models.produit.objects.get(ProduitId=produit_data['ProduitId'])
-        produit_serializer = ProduitsSerializer(produit, data=produit_data)
-        if produit_serializer.is_valid(): 
-            produit_serializer.save() 
-            return JsonResponse("Update Successful",safe=False)   
-        return JsonResponse(produit_serializer.errors, status=status.HTTP_400_BAD_REQUEST) 
-     elif request.method == 'DELETE': 
-        produit = models.produit.objects.filter(produitId=id)
-        print(produit)
-        produit.delete() 
-        return JsonResponse({'message': 'produit was deleted successfully!'}, status=status.HTTP_204_NO_CONTENT)
+            return Response({"message": "Ajout du produit avec succès"}, status=status.HTTP_201_CREATED)
+        return Response(produit_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    def update(self, request, *args, **kwargs):
+        produit_data = JSONParser().parse(request)
+        produit = self.get_object()
+        produit_serializer = ProduitsSerializer(produit, data=produit_data)
+        if produit_serializer.is_valid():
+            produit_serializer.save()
+            return Response({"message": "Mise à jour réussie"}, status=status.HTTP_200_OK)
+        return Response(produit_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def destroy(self, request, *args, **kwargs):
+        produit = self.get_object()
+        produit.delete()
+        return Response({"message": "Produit supprimé avec succès"}, status=status.HTTP_204_NO_CONTENT)
 
 
 
