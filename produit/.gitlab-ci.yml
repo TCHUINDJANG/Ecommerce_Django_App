@@ -3,9 +3,13 @@ image: python:3.9
 
 # Définir les variables d'environnement globales
 variables:
+  POSTGRES_DB: Ecommerce  
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: Davide2020@@
   DJANGO_SETTINGS_MODULE: myproject.settings
   PYTHONPATH: "${PYTHONPATH}:${CI_PROJECT_DIR}"
   DATABASE_URL: postgres://postgres:postgres@postgres:5432/postgres
+
 
   # Définir les étapes du pipeline
 stages:

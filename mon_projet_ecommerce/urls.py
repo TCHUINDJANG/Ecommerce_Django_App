@@ -21,12 +21,14 @@ from rest_framework.routers import DefaultRouter
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from rest_framework import permissions
+from rest_framework.routers import DefaultRouter
+
 
 #from .views import CategorieViewSet, ProduitViewSet, PanierViewSet, ArticleDuPanierViewSet, CommandeViewSet, DetailCommandeViewSet, AvisViewSet, TransactionViewSet, ExpeditionViewSet
 
 
 
-router = DefaultRouter()
+
 #router.register(r'categories', CategorieViewSet)
 #router.register(r'produits', ProduitViewSet)
 #router.register(r'paniers', PanierViewSet)
@@ -39,38 +41,28 @@ router = DefaultRouter()
 
 
 
-# schema_view = get_schema_view(
-#     openapi.Info(
-#         title="Mon Application de Ecommerce",
-#         default_version='v1.0',
-#         description="Description de mon API de Ecommerce    ",
-#         terms_of_service="https://www.google.com/policies/terms/",
-#         contact=openapi.Contact(email="contact@monapi.local"),
-#         license=openapi.License(name="BSD License"),
-#     ),
-#     public=True,
-#    # permission_classes=(permissions.AllowAny,),
-# )
+schema_view = get_schema_view(    #crée une instance de la vue de schéma Swagger
+    openapi.Info(                   #est un objet qui contient les informations de base sur l'API
+        title="Mon Application de Ecommerce",
+        default_version='v1.0',
+        description="Description de mon API de Ecommerce    ",
+        terms_of_service="https://www.google.com/policies/terms/",   #Lien vers les termes et conditions d'utilisation de l'API
+        contact=openapi.Contact(email="contact@monapi.local"),   #Fournit les informations de contact pour l'API
+        license=openapi.License(name="BSD License"),       #Spécifie les informations sur la licence de l'API
+    ),
+    public=True,
+    permission_classes=(permissions.AllowAny,),
+)
 
 
-
-# schema_view = get_schema_view(
-#     openapi.Info(
-#         title="projet",
-#         default_version="v1",
-#         description="projet",
-#         contact=openapi.Contact(email="projet@projet.com"),
-#         license=openapi.License(name="data License"),
-#     ),
-#     public=True,
-# )
+# http://127.0.0.1:8000/swagger/
 
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('produit.urls'), name="produit"),
-    # path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     # path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 
 
