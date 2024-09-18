@@ -15,6 +15,7 @@ class Category(models.Model):
         name = models.CharField(max_length=200)
         date_ajout = models.DateTimeField(auto_now=True)
         description = models.TextField(max_length=500, null=True)
+        updated_at = models.DateTimeField(auto_now=True)
 
         class Meta:
             ordering = ['-date_ajout']
@@ -40,10 +41,12 @@ class produits(models.Model):
 
 
 class Commande(models.Model):
-    customer_name = models.ForeignKey(User,on_delete=models.SET_NULL,blank=True,null=True)
+    customer_name = models.ForeignKey(User,on_delete=models.CASCADE)
     address = models.TextField()
     product = models.ForeignKey(produits, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField()
+    total_amount = models.CharField(max_length=250, default=0)
+    updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
     transaction_id = models.CharField(max_length=200, null=True)
 

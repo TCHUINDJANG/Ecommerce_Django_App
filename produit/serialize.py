@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import produits, Category,  Panier, ArticlesDuPanier, Commande, DetailsCommandes, Avis, Transaction, Expedition
+from .models import produits, Category, User , Panier, ArticlesDuPanier, Commande, DetailsCommandes, Avis, Transaction, Expedition
 
 
 
@@ -12,6 +12,12 @@ class CategorieSerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = '__all__'
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta : 
+        model = User
+        fields = '__all__'
+
 
 class PanierSerializer(serializers.ModelSerializer):
     class Meta:
