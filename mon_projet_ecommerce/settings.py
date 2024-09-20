@@ -51,7 +51,7 @@ INSTALLED_APPS = [
     'users',
     'payement',
     'order',
-    'category',
+    
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True

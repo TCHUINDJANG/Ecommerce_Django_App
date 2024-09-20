@@ -15,4 +15,5 @@ router.register(r'panier', panierViewSet, basename='panier')
 
 urlpatterns = [
     path('', include(router.urls)), 
+    path('api/produit/count/', produitViewSet.as_view({'get': 'count_products'}), name='count_products'),  # Nouvelle URL pour le comptage
 ]

@@ -30,13 +30,22 @@ class produitViewSet(viewsets.ModelViewSet):
         produit_serializer = ProduitsSerializer(produit, data=produit_data)
         if produit_serializer.is_valid():
             produit_serializer.save()
-            return Response({"message": "Mise à jour réussie"}, status=status.HTTP_200_OK)
+            return Response({"message": "Mise à jour réussie bravo"}, status=status.HTTP_200_OK)
         return Response(produit_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def destroy(self, request, *args, **kwargs):
         produit = self.get_object()
         produit.delete()
         return Response({"message": "Produit supprimé avec succès"}, status=status.HTTP_204_NO_CONTENT)
+    
+
+    def count_products(self , request,*args, **kwargs ):
+        count =  produits.objects.count()
+        return Response ({"Le nombre total de produit est": count} , status=status.HTTP_200_OK)
+
+
+
+
 
 
 
@@ -66,6 +75,15 @@ class categoryViewSet(viewsets.ModelViewSet):
         category = self.get_object()
         category.delete()
         return Response({"message": "Categorie supprimé avec succès"}, status=status.HTTP_204_NO_CONTENT)
+    
+
+
+
+
+
+
+
+
     
 class commandeViewSet(viewsets.ModelViewSet):
     queryset = Commande.objects.all()

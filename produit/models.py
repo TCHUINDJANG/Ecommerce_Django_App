@@ -28,7 +28,7 @@ class produits(models.Model):
     prix = models.FloatField()
     description = models.TextField()
     category = models.ForeignKey(Category, related_name='categorie',on_delete=models.CASCADE)
-    image = models.CharField( max_length=5000)
+    image = models.CharField(max_length=100, null=True, blank=True )
     date_ajout = models.DateTimeField(auto_now=True)
     stock = models.PositiveIntegerField()
 
