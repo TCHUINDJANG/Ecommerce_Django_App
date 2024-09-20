@@ -14,6 +14,9 @@ python -m django startprojet nom du projet(mon_projet_ecommerce)
 
 # relions notre projet a notre aplication apibackend(setting.py)
 
+Framework utilisé pour les tests Untaires 
+Framework de test : Les tests utilisent le framework intégré de Django, qui est basé sur unittest et est fourni par django.test.TestCase et rest_framework.test.APITestCase.
+
 
 
 

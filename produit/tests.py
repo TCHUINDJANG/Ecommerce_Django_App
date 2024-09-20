@@ -31,22 +31,110 @@ class TestCaseProduits(TestCase):
             titre = self.produit.titre
         )
 
+
+
+
+
+    def test_list_products(self):
+
+        """Test de la récupération de tous les produits"""
+        response = self.client.get(reverse('product-list'))
+        self.assertEqual(response.status_code , status.HTTP_200_OK)
+        self.assertEqual(len(response.data) , 1)
+
+
+
+    def test_get_product_by_id(self):
+        """Test de la récupération d'un produit par ID"""
+        response = self.client.get(reverse('product-detail' , args=[self.produit.id]))
+        self.assertEqual(response.status_code , status.HTTP_200_OK)
+        self.assertEqual(response.data['titre'] , 'Ordinateur portable')
+        self.assertEqual(response.data['description'] , 'Un ordinateur portable de haute performance')
+
+
+
+
+
+
     def test_produit(self):
         self.assertEqual(self.produit.titre , self.produit)
 
     def test_profil_titre(self):
         self.assertEqual(self.produit.produit , self.produit)
 
-        def test_creation_produit(self):
 
-            produit = self.produit
-            self.assertEquals(produit.titre , 'Ordinateur portable')
-            self.assertEquals(produit.prix , 1000)
-            self.assertEquals(produit.description,'Un ordinateur portable de haute performance')
-            self.assertEquals(produit.category, self.category)
-            self.assertEquals(produit.image , 'chemin/vers/image.jpg')
-            self.assertEquals(produit.stock , 10)
-            self.assertEquals(produit.date_ajout <= timezone.now())
+
+    def test_creation_produit(self):
+            
+            """Test de la création d'un nouveau produit"""
+
+            data = {
+                'titre':'Nouveau produit',
+                'description':'Tres bon pour la sante',
+                'stock':50
+            }
+
+            response = self.client.post(reverse('product-list') , data , format='json')
+            self.assertEquals(produits.titre , 'Ordinateur portable')
+            self.assertEquals(produits.prix , 1000)
+            self.assertEquals(produits.description,'Un ordinateur portable de haute performance')
+            self.assertEquals(produits.category, self.category)
+            self.assertEquals(produits.image , 'chemin/vers/image.jpg')
+            self.assertEquals(produits.stock , 10)
+            self.assertEqual(produits.objects.count() , 2)
+
+
+
+    def test_update_product(self):
+         """Test de la mise à jour d'un produit existant"""
+
+         data = {
+             'titre' : 'Produit mis a jour',
+             'prix': 50,
+             'description':'Nouvelle desription',
+             'stock':75
+         }
+
+         response = self.client.put(reverse('product-detail', args=[self.product.id]), data, format='json')
+
+         self.assertEqual(response.status_code , status.HTTP_200_OK)
+         self.produit.refresh_from_db()
+         self.assertEqual(self.produit.prix , 50)
+         self.assertEqual(self.produit.stock , 75)
+
+
+    def test_delete_product(self):
+        """Test de la suppression d'un produit"""
+
+        response = self.client.delete(reverse('product-detail', args=[self.product.id]))
+        self.assertEqual(response.status_code , status.HTTP_204_NO_CONTENT)
+        self.assertEqual(produits.objects.count() , 0)
+
+
+    def test_filter_products_by_price(self):
+         """Test de la récupération de produits avec un prix supérieur"""
+         response = self.client.get(reverse('product-list') + '?price__gt=15')
+         
+         self.assertEqual(response.status_code , status.HTTP_200_OK)
+         self.assertGreater(len(response.data) , 0)
+            
+
+    def test_search_producr(self):
+        """Test de la recherche de produits par nom"""
+
+        response = self.client.get(reverse('product-list') + '?search=Test')
+
+        self.assertEqual(response.status_code , status.HTTP_200_OK)
+        self.assertEqual(len(response) , 1)
+
+
+    def test_get_products_in_stocks(self):
+         """Test de la récupération de produits en stock"""
+
+         response = self.client.get(reverse('product-list') + '?stock__gt=0')
+
+         self.assertEqual(response.status_code , status.HTTP_200_OK)
+         self.assertGreater(len(response.data) , 0)
 
 
 

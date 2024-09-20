@@ -11,11 +11,15 @@ from .serialize import CategorieSerializer, ProduitsSerializer, PanierSerializer
 from rest_framework import viewsets
 from rest_framework.response import Response
 from .models import *
+from rest_framework.pagination import PageNumberPagination
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import filters
+
 
 class produitViewSet(viewsets.ModelViewSet):
     queryset = produits.objects.all()
     serializer_class = ProduitsSerializer
-
+#http://localhost:8000/products/
     def create(self, request, *args, **kwargs):
         produit_data = JSONParser().parse(request)
         produit_serializer = ProduitsSerializer(data=produit_data)
@@ -39,9 +43,59 @@ class produitViewSet(viewsets.ModelViewSet):
         return Response({"message": "Produit supprimé avec succès"}, status=status.HTTP_204_NO_CONTENT)
     
 
+
+#http://localhost:8000/products/
+    
+    def get_all_product(self , request ,*args, **kwargs ):
+        queryset = self.get_queryset()
+        produitSerializer = ProduitsSerializer(queryset, many=True)
+        return Response(produitSerializer.data)
+    
+#http://localhost:8000/products/1/
+
+    def search_product_by_id(self , request ,*args, **kwargs):
+        produit = self.get_object()
+        produit_serialiser = ProduitsSerializer(produit)
+        return Response(produit_serialiser.data)
+
+    
+# http://localhost:8000/products/?price__gt=20
+    def search_product_by_price(self , request , price):
+        queryset = self.get_queryset().filter(price__gt=price)
+        product_serializer = ProduitsSerializer(queryset , many=True)
+        return Response(product_serializer.data)
+    
+
+        
     def count_products(self , request,*args, **kwargs ):
         count =  produits.objects.count()
         return Response ({"Le nombre total de produit est": count} , status=status.HTTP_200_OK)
+    
+# Tri par défaut  http://localhost:8000/products/?stock__gt=0
+    def get_product_by_stock_superieur_at_zero(self , request,*args, **kwargs ):
+        queryset = self.get_queryset().filter(stock__gt=0)
+        produit_serializer = ProduitsSerializer(queryset, many=True)
+        return Response(produit_serializer.data)
+    
+# http://localhost:8000/products/?search=chaussures
+    
+    def get_product_by_nom(self , request,*args, **kwargs):
+        search_item = request.query_params.get('search' , None)
+        if search_item:
+            queryset = self.get_queryset().filter(name__contains=search_item)
+        else:
+            queryset = self.queryset()
+        ProduitsSerializer = ProduitsSerializer(queryset , many=True)
+        return Response(ProduitsSerializer.data)    
+
+
+    
+    
+
+
+
+
+
 
 
 
