@@ -244,7 +244,7 @@ class Produits_get_list_product_API(TestCase):
 
     def test_delete_produit(self):
         produit = produit.objects.create(ProduitId=5, nom="Produit 5", prix=50.0)
-        response = self.client.delsete(f'{self.url}?id=5')
+        response = self.client.delete(f'{self.url}?id=5')
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertEqual(response.json()['message'], 'produit was deleted successfully!')
 
