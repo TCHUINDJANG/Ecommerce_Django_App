@@ -1,12 +1,13 @@
 from django.shortcuts import render
 from django.contrib.auth import login, logout
 from rest_framework.permissions import AllowAny
-from  .serializer import UserSerializer
+from  produit.serialize import UserSerializer
 from .models import CustomUser
 from django.http import JsonResponse
 from django.contrib.auth import get_user_model
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import viewsets
+from rest_framework import status
 
 import random
 import  re
@@ -23,7 +24,7 @@ def generate_session_token(lenght=10):
 # Créer un jeton unique
     return ''.join(random.SystemRandom().choice(char_list + int_list) for _ in range(lenght))
 
-@csrf_exempt 
+@csrf_exempt            #  http://127.0.0.1:8000/api//api/users/
 def sign(request):
     if not request.method =='POST':
         return JsonResponse({'error':"vous n'etes pas eligibles a vous connecter"})
@@ -70,7 +71,7 @@ def sign(request):
         return JsonResponse({'error':'Invalid Email'})
     
 
-
+   #  http://127.0.0.1:8000/api/api/logout/
 def signout(request , id):
 
     UserModel = get_user_model()
@@ -87,13 +88,26 @@ def signout(request , id):
     return JsonResponse({'success': 'Logout successful'})
 
 
+
+# http://127.0.0.1:8000/api//api/forgot-password/
+
+
+def forgot_password_view(self, request):
+        email = request.data.get('email')
+        user = user.objects.filter(email=email).first()
+        if user:
+            # Logique pour envoyer un e-mail de réinitialisation de mot de passe
+            return JsonResponse({'message': _('Password reset email sent!')}, status=status.HTTP_200_OK)
+        return JsonResponse({'error': _('User not found')}, status=status.HTTP_404_NOT_FOUND)
+
+
 class UserViewSet(viewsets.ModelViewSet):
     permission_classes_by_action = {'create' : [AllowAny]}
     queryset = CustomUser.objects.all().order_by('id')
     serializer_class = UserSerializer
 
 
-    def get_permissions(self):
+def get_permissions(self):
         try:
             # Return permission_classes depending on `action` 
             return [permission() for permission in self.permission_classes_by_action[self.action]]

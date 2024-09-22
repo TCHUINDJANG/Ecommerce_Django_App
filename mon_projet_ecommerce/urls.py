@@ -21,6 +21,7 @@ schema_view = get_schema_view(    #crée une instance de la vue de schéma Swagg
 
 urlpatterns = [
     path(settings.ADMIN_URL, admin.site.urls),
+    path('api/', include('users.urls')),
     path("api/", include(produit_url)), 
     path(
         "swagger/",

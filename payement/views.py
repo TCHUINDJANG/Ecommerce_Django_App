@@ -6,8 +6,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 from django.views.decorators.csrf import csrf_exempt
 
-import braintree
-
+import braintree           # une passerelle de paiement(Paypal, Apple Pay...)
+  
 # Create your views here.
 
 # BrainTree Credentials

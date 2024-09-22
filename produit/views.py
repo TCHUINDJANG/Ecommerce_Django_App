@@ -66,10 +66,17 @@ class produitViewSet(viewsets.ModelViewSet):
         return Response(product_serializer.data)
     
 
+    def search_product_by_category(self, request , category):
+        queryset = self.get_queryset().filter(category__gt=category)
+        product_serializer = ProduitsSerializer(queryset)
+        return Response(product_serializer.data)
+    
+
         
     def count_products(self , request,*args, **kwargs ):
         count =  produits.objects.count()
-        return Response ({"Le nombre total de produit est": count} , status=status.HTTP_200_OK)
+        produit_serializer = ProduitsSerializer(count)
+        return Response ({"Le nombre total de produit est": produit_serializer} , status=status.HTTP_200_OK)
     
 # Tri par défaut  http://localhost:8000/products/?stock__gt=0
     def get_product_by_stock_superieur_at_zero(self , request,*args, **kwargs ):
@@ -90,18 +97,6 @@ class produitViewSet(viewsets.ModelViewSet):
 
 
     
-    
-
-
-
-
-
-
-
-
-
-
-
 
 class categoryViewSet(viewsets.ModelViewSet):
     queryset =  Category.objects.all() 
@@ -135,9 +130,6 @@ class categoryViewSet(viewsets.ModelViewSet):
 
 
 
-
-
-
     
 class commandeViewSet(viewsets.ModelViewSet):
     queryset = Commande.objects.all()
@@ -150,6 +142,50 @@ class commandeViewSet(viewsets.ModelViewSet):
             commande_serialize.save()
             return Response({"message": "commande avec succès"}, status=status.HTTP_201_CREATED)
         return Response(commande_serialize.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+
+
+    def update(self , request, *args , **kwargs):
+        commande_data = JSONParser().parse(request)
+        commande = self.get_object()
+        commande_serialize = CategorieSerializer(commande , data=commande_data)
+        if commande_serialize.is_valid():
+            commande_serialize.save()
+            return Response({"message": "Mise à jour réussie"}, status=status.HTTP_200_OK)
+        return Response(commande_serialize.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+
+    def destroy(self, request, *args, **kwargs):
+        commande = self.get_object()
+        commande.delete()
+        return Response({"message": "Categorie supprimé avec succès"}, status=status.HTTP_204_NO_CONTENT)
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     
 
 class userViewSet(viewsets.ModelViewSet):

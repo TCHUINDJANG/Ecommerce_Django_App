@@ -1,62 +1,40 @@
 # MonProjet : Application de ECommerce
 
-Ce projet est une application de commerce électronique développée avec Django et PostgreSQL. Il permet aux utilisateurs de naviguer à travers les produits, de les ajouter à leur panier et de passer des commandes. Le projet inclut des fonctionnalités telles que l'authentification des utilisateurs, la gestion des produits, le traitement des commandes, et la gestion des utilisateurs.
+Ecommerce Rest API
+
+An Ecommerce Store Backend to Sell Products. It accepts Paypal/Stripe Payment. Built with Python/Django Rest Framework.
 
 
-## Outils utilises : Python 3 , Django, PostgreSql, github
-# installation de django
-pip install django
-# demarrer un projet django
-python -m django startprojet nom du projet(mon_projet_ecommerce)
-# a l'interieur du projet on va creer pluseurs applications
+Introduction
 
-# pour creer une applicaion : python manager.py startapp apibackend
-
-# relions notre projet a notre aplication apibackend(setting.py)
-
-Framework utilisé pour les tests Untaires 
-Framework de test : Les tests utilisent le framework intégré de Django, qui est basé sur unittest et est fourni par django.test.TestCase et rest_framework.test.APITestCase.
+DRF-Ecommerce-API provides API endpoints to Sell Physical Products through Paypal/Stripe Payment. Built with Python/Django and 100% free to use.
 
 
+Features
+A few of the things you can do with this app:
+
+L'administrateur peut créer/mettre à jour/supprimer une catégorie de produit
+L'administrateur peut créer/mettre à jour/supprimer les détails du produit
+Les utilisateurs authentifiés peuvent effectuer des requêtes POST sur la catégorie de produit et les détails du produit
+Les utilisateurs non authentifiés ne peuvent effectuer des requêtes GET que sur la catégorie de produit et les détails du produit
+Les utilisateurs peuvent s'inscrire pour être autorisés
+Les utilisateurs autorisés peuvent effectuer des paiements et commander des produits
 
 
+Installation Process
 
-Après avoir clôné le repo :
+Installation Process (Windows)
 
-# Recommandé : créez un environnement virtuel
-$ virtualenv env
-$ . env/bin/activate
-python -m venv myenv
+Create a Virtual Environment virtualenv projectenv
+Go To environment Directory cd projectenv/scripts
+Activate Virtual Environment activate
+Clone This Project : https://github.com/TCHUINDJANG/Ecommerce_Django_App
+Go To Project Directory cd Ecommerce_Django_App
+Install Required Package pip install -r requirements.txt
+Initialiser la base de donnee : python manage.py makemigrations
+Migrate Database python manage.py migrate
+Lancez enfin le projetpython manage.py runserver
 
-activer mon environnement virtuel
-
-
-# Installez les dépendances
-$ pip install -r requirements.txt
-
-# Initialisez la Database create database (ses commandes permettent de crer mes tables en Bases de donnes)
-python manage.py makemigrations
-$ python manage.py migrate
-
-# Lancez le serveur de dev
-$ python manage.py runserver
-
-API
-Au cas où on voudrait utiliser cette app avec un frontend JS, une petite API REST a été implémentée à l'aide du Django REST Framework.
-
-Les ressources utiles sont dispos sur le serveur Django :
-
-Browsable API : http://localhost:8000/api/
-
-
-
-## Liste des fonctionnalités principales du projet :
-
-1 Inscription et Connexion
-
-Création de compte
-Connexion via email ou réseaux sociaux
-Réinitialisation du mot de passe
 
 2 Navigation et Recherche
 Ajout des produits
@@ -90,17 +68,6 @@ Une commande peut avoir plusieurs détails (ForeignKey), et chaque détail est a
 Une commande a une seule transaction associée (OneToOneField).
 Une commande a une seule expédition associée (OneToOneField).
 
-
-
-### Résumé
-
-Voici un résumé des étapes :
-
-1. **Modèles Django** : Définir les modèles dans `models.py` pour représenter tes tables PostgreSQL.
-2. **Sérializers** : Créer des sérializers dans `serializers.py` pour convertir les données des modèles en JSON et vice versa.
-3. **Vues API** : Mettre en place des vues pour les API dans `views.py` en utilisant `viewsets` pour des opérations CRUD.
-4. **Routage** : Configurer les routes dans `urls.py` pour exposer tes API.
-5. **Paramètres** : Ajuster les paramètres de Django REST framework dans `settings.py`.
 
 
 
@@ -168,28 +135,6 @@ docker-compose exec web python manage.py migrate
 
 Pour une application e-commerce typique, nous aurons besoin des endpoints suivants :
 
-Utilisateurs (Users)
-
-Créer un utilisateur
-Obtenir un utilisateur
-Mettre à jour un utilisateur
-Supprimer un utilisateur
-
-Produits (Products)
-
-Créer un produit
-Obtenir une liste de produits
-Obtenir un produit
-Mettre à jour un produit
-Supprimer un produit
-
-Commandes (Orders)
-
-Créer une commande
-Obtenir une liste de commandes
-Obtenir une commande
-Mettre à jour une commande
-Supprimer une commande
 
 pour verifier l'interface de swagger lancer le serveur a cette adresse : http://localhost:8000/swagger/
 acceder a http://localhost:8000/redoc/ pour voir la documentation ReDoc
