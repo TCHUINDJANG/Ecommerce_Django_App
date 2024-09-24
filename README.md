@@ -3,7 +3,7 @@
 Ce projet est une application de commerce électronique développée avec Django et PostgreSQL. Il permet aux utilisateurs de naviguer à travers les produits, de les ajouter à leur panier et de passer des commandes. Le projet inclut des fonctionnalités telles que l'authentification des utilisateurs, la gestion des produits, le traitement des commandes, et la gestion des utilisateurs.
 
 
-## Outils utilises : Python 3 , Django, PostgreSql, github , gitLab(CI CD) , UniTest( Pour les tests unitaires)
+## Outils utilises : Python 3 , Django, PostgreSql, github , gitLab(CI CD) , UniTest( Pour les tests unitaires) , React.js
 
 
 
@@ -69,3 +69,4 @@ Confirmation et récapitulatif de la commande
 
 6 Configuration d'une pipeline CI CD avec Gitlab
 7 Deploiement de l'applicatiion dans Docker afin d'obtenir une image
+8 L'application a ete deploye sur un serveur (Pythonanywhere) afin de la rendre accessible partout dans le monde
