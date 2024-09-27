@@ -1,24 +1,17 @@
-# MonProjet : Api application ECommerce
+# MonProjet : Ecommerce REST API
+Swagger pour documenter les API Rest ( http://127.0.0.1:8000/swagger/)
 
-Ce projet est une application de commerce électronique développée avec Django et PostgreSQL. Il permet aux utilisateurs de naviguer à travers les produits, de les ajouter à leur panier et de passer des commandes. Le projet inclut des fonctionnalités telles que l'authentification des utilisateurs, la gestion des produits, le traitement des commandes, et la gestion des utilisateurs.
+Ecommerce-REST-API fournit des points de terminaison API pour vendre des produits physiques via le paiement Paypal/Stripe/Orange et MTN money. Conçu avec Python/Django et 100% gratuit à utiliser.
 
 
 ## Outils utilises : Python 3 , Django, PostgreSql, github , gitLab(CI CD) , UniTest( Pour les tests unitaires) 
-                      nginx(serveur et distribution de charge) , Docker compose pour mettre plusieurs conteneurs en reseaux
-                      design pattern(pour rendre l'application plus performante code sans outils) , DevOps avec 
-                      AWS(Utilisation des pipelines automatiques de deploiement)
-                      Swagger pour documenter les API Rest ( http://127.0.0.1:8000/swagger/)
-              
-
-
-
+                      
 
 Après avoir clôné le repo :
 
 # Recommandé : créez un environnement virtuel
 $ virtualenv env
 $ . env/bin/activate
-
 
 # Installez les dépendances
 $ pip install -r requirements.txt
@@ -30,48 +23,14 @@ $ python manage.py migrate
 # Lancez le serveur de dev
 $ python manage.py runserver
 
-API
-Au cas où on voudrait utiliser cette app avec un frontend JS, une petite API REST a été implémentée à l'aide du Django REST Framework.
-
-Les ressources utiles sont dispos sur le serveur Django :
-
-Browsable API : http://localhost:8000/api/
-
-
-
 ## Liste des fonctionnalités principales du projet :
 
-1 Inscription et Connexion ( Utilisateurs)
-
-Création de compte
-Connexion via email ou réseaux sociaux
-Réinitialisation du mot de passe
-Mot de passe oublie
-
-2 Navigation et Recherche
-Ajout des produits
-Ajout des categories
-Barre de recherche avec suggestions
-Filtres et tri des produits par categories
-Catégorisation des produits
-Pages de produits avec descriptions détaillées
-Paggination pour la recherches des produits
-Ajout des produits a sa liste de favoris
-Prmotion des produits selon une date
-
-3 Gestion du Panier
-
-Ajout et suppression d'articles
-Mise à jour des quantités
-Affichage du total et des frais de livraison
-
-4 Processus de Commande
-
-Choix des options de livraison
-Sélection des méthodes de paiement (carte bancaire, PayPal, etc.)
-Confirmation et récapitulatif de la commande
-
-5 Statistiques des ventes selon une periode defini par l'utilisateur
+L'administrateur peut créer/mettre à jour/supprimer une catégorie de produit
+L'administrateur peut créer/mettre à jour/supprimer les détails du produit
+Les utilisateurs authentifiés peuvent effectuer des requêtes POST sur la catégorie de produit et les détails du produit
+Les utilisateurs non authentifiés ne peuvent effectuer des requêtes GET que sur la catégorie de produit et les détails du produit
+Les utilisateurs peuvent s'inscrire pour être autorisés
+Les utilisateurs autorisés peuvent effectuer des paiements et commander des produits
 
 6 Configuration d'une pipeline CI CD avec Gitlab
 7 Deploiement de l'applicatiion dans Docker afin d'obtenir une image et la partager
