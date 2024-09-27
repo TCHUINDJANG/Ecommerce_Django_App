@@ -7,14 +7,14 @@ Ecommerce-REST-API fournit des points de terminaison API pour vendre des produit
 ## Outils utilises : Python 3 , Django, PostgreSql, github , gitLab(CI CD) , UniTest( Pour les tests unitaires) 
                       
 
-Après avoir clôné le repo :
+Après avoir clôné le repo : git clone https://github.com/TCHUINDJANG/Ecommerce_Django_App.git
+Accéder au répertoire du projet : cd Ecommerce_Django_App
+# Installez les dépendances
+$ pip install -r requirements.txt
 
 # Recommandé : créez un environnement virtuel
 $ virtualenv env
 $ . env/bin/activate
-
-# Installez les dépendances
-$ pip install -r requirements.txt
 
 # Initialisez la Database
 python manage.py makemigrations
