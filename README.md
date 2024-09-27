@@ -23,6 +23,7 @@ $ python manage.py migrate
 # Lancez le serveur de dev
 $ python manage.py runserver
 
+
 ## Liste des fonctionnalités principales du projet :
 
 L'administrateur peut créer/mettre à jour/supprimer une catégorie de produit
@@ -35,3 +36,8 @@ Les utilisateurs autorisés peuvent effectuer des paiements et commander des pro
 6 Configuration d'une pipeline CI CD avec Gitlab
 7 Deploiement de l'applicatiion dans Docker afin d'obtenir une image et la partager
 8 L'application a ete deploye sur un serveur (Pythonanywhere) afin de la rendre accessible partout dans le monde
+
+Démo en direct
+URL du projet en direct :
+
+Page de documentation de l'API : http://127.0.0.1:8000/swagger/
