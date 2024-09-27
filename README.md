@@ -7,6 +7,7 @@ Ce projet est une application de commerce électronique développée avec Django
                       nginx(serveur et distribution de charge) , Docker compose pour mettre plusieurs conteneurs en reseaux
                       design pattern(pour rendre l'application plus performante code sans outils) , DevOps avec 
                       AWS(Utilisation des pipelines automatiques de deploiement)
+                      Swagger pour documenter les API Rest ( http://127.0.0.1:8000/swagger/)
               
 
 
