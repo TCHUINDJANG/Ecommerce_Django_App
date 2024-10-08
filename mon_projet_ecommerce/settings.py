@@ -14,8 +14,8 @@ from pathlib import Path
 import os
 import _locale
 _locale._getdefaultlocale = (lambda *args: ['en_US', 'utf8'])
-from dotenv import load_dotenv
-from decouple import config
+from dotenv import load_dotenv 
+from decouple import config 
 
 
 
@@ -51,9 +51,45 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'users',
     'payement',
-    'order',    
+    'order',  
+    'rest_framework_simplejwt.authentication.JWTAuthentication',  
     
 ]
+
+AUTH_USER_MODEL = 'account.users'
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated', 
+     ],
+      'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ]
+}
+
+
+
+from datetime import timedelta      #le time data vous permet de donner minutes ou seconde ca depend
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(seconds=5),
+    "REFRESH_TOKEN_LIFETIME": timedelta(minutes=2),
+    "ROTATE_REFRESH_TOKENS": False,
+
+}
+
+CONFIRMATION_LINK_TIMEOUT = 3600
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+CONFIRMATION_MAIL_REQUEST_PAGE = "https://google.com"
+FRONTEND_HOMEPAGE = "https://google.com"
+
+# Use Redis as a message broker.
+CELERY_BROKER_URL = 'redis://redis:6379/0'
+
 
 CORS_ORIGIN_ALLOW_ALL = True
 
@@ -73,7 +109,7 @@ ROOT_URLCONF = 'mon_projet_ecommerce.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / "template"],
+        'DIRS': [BASE_DIR / "templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -107,6 +143,17 @@ DATABASES = {
 #         'PASSWORD':'Davide2020@@',
 #         'HOST':'localhost',
 #         'PORT':'5432',
+#     }
+# }
+
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql",
+#         "NAME": os.getenv("DB_NAME"),  # database name
+#         "USER": os.getenv("DB_USER"),  # database user_name
+#         "PASSWORD": os.getenv("DB_PASSWORD"),  # the password you set for the PostgreSQL user
+#         "HOST": "db",  # set to the address of your PostgreSQL if not on the same machine
+#         "PORT": "5432",  #
 #     }
 # }
 

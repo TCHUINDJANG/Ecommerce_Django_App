@@ -7,8 +7,12 @@ COPY requirements.txt .
 # Installer les dépendances
 RUN pip install --no-cache-dir -r requirements.txt
 # Copier le reste des fichiers du projet
-COPY . .
+COPY . /app/
 # Exposer le port sur lequel l'application va fonctionner
 EXPOSE 8000
 # Définir la commande par défaut pour exécuter l'application
 CMD ["gunicorn", "--bind", "0.0.0.0:8000", "myproject.wsgi:application"]
+
+
+# docker-compose up --build -d   cette commande permet de construire ou de creer  nos containers
+#docker-compose down cettecommande permet de supprimer tous les conteneurs docker existants 

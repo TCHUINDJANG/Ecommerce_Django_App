@@ -2,15 +2,21 @@ from django.shortcuts import render
 from django.contrib.auth import login, logout
 from rest_framework.permissions import AllowAny
 from  produit.serialize import UserSerializer
+from users.serialize import UserSerializers
 from .models import CustomUser
 from django.http import JsonResponse
 from django.contrib.auth import get_user_model
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import viewsets
 from rest_framework import status
-
+from django.db import transaction
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny
 import random
 import  re
+from rest_framework.response import Response
+from django.conf import settings
+from rest_framework import serializers
 
 
 
@@ -24,51 +30,50 @@ def generate_session_token(lenght=10):
 # Créer un jeton unique
     return ''.join(random.SystemRandom().choice(char_list + int_list) for _ in range(lenght))
 
-@csrf_exempt            #  http://127.0.0.1:8000/api//api/users/
-def sign(request):
-    if not request.method =='POST':
-        return JsonResponse({'error':"vous n'etes pas eligibles a vous connecter"})
+api_view(["POST"])
+@permission_classes([AllowAny])           #  http://127.0.0.1:8000/api//api/users/
+def RegistrationView(request)  -> Response:
+     with transaction.atomic():
+        try:
+             
+    #     subject = "Ecoms Welcome Mail"
+    #     message = ""  # this is needed to be empty although html message is to be sent
+    #     from_email = "noreply@example.com"
+    #     recipient_list = [instance.email]
+    #     generated_token = instance.get_confirmation_token
+    #     # Render the HTML template
+    #     html_message = render_to_string(
+    #          "welcome_mail.html",
+    #          {"request": request, "username": instance.username, "confirm_token": generated_token},
+    #      )
+    #    send_email_task.delay(subject, message, from_email, recipient_list, html_message=html_message)
+            serializer = UserSerializers(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        except Exception as e:
+            transaction.set_rollback(True)
+            return Response(
+                serializer.errors,
+                status.HTTP_400_BAD_REQUEST,
+            )
     
-    username = request.POST['email']
-    password = request.POST['password']
-
-    if not re.match("^[\w\.\+\-]+\@[\w]+\.[a-z]{2,3}$", username):
-        return JsonResponse({'error':"Enter a valid Email"})
-    
-    if len(password) < 6 :
-        return JsonResponse({'error':"Password must be 6 character long"})
-    
-    userModel = get_user_model()
-
-    try:
-        user = userModel.objects.get(email=username)
-
-        if user.check_password(password):
-            user_dict = userModel.objects.filter(email=username).values().first()
-            user_dict.pop('password')
-
-# Si session_token n'est pas 0, il est déjà en cours d'exécution (l'utilisateur est connecté)
-        if user.session_token != '0':
-            # Si l'utilisateur n'est pas connecté, nous définissons session_token sur 0
-            user.session_token = '0'
-# Enregistrer la session
-            user.save()
-            return JsonResponse({'error':"Previous session exists"})
-        # Générer un jeton de session
-            token = generate_session_token()
-            user.session_token = token
-            user.save()
-            # Connexion de l'utilisateur
-            login(request , user)
-
-            return JsonResponse({'token':token, 'user':user_dict})
-
-        else :
-            return JsonResponse({'token':'Invalid password'})
-
-
-    except userModel.DoesNotExist:
-        return JsonResponse({'error':'Invalid Email'})
+   
+@api_view(["GET"])
+@permission_classes([AllowAny])
+def ConfirmRegistration(request):
+    token = request.GET.get("token")
+    # redirect user to page to tell them to request for new validation email
+    if not token:
+        return redirect(settings.CONFIRMATION_MAIL_REQUEST_PAGE)
+    # get user id
+    user_id, error = decode_jwt(token)
+    if user_id and error is None:
+        user = CustomUser.objects.filter(id=user_id)
+        if user.exists():
+            user.update(verified=True)
+            return redirect(settings.FRONTEND_HOMEPAGE)
+    return redirect(settings.CONFIRMATION_MAIL_REQUEST_PAGE)
     
 
    #  http://127.0.0.1:8000/api/api/logout/
@@ -101,10 +106,10 @@ def forgot_password_view(self, request):
         return JsonResponse({'error': _('User not found')}, status=status.HTTP_404_NOT_FOUND)
 
 
-class UserViewSet(viewsets.ModelViewSet):
-    permission_classes_by_action = {'create' : [AllowAny]}
-    queryset = CustomUser.objects.all().order_by('id')
-    serializer_class = UserSerializer
+# class UserViewSet(viewsets.ModelViewSet):
+#     permission_classes_by_action = {'create' : [AllowAny]}
+#     queryset = CustomUser.objects.all().order_by('id')
+#     serializer_class = UserSerializer
 
 
 def get_permissions(self):

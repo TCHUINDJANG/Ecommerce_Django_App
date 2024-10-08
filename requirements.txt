@@ -12,7 +12,12 @@ cycler==0.12.1
 dj-database-url==2.2.0
 Django==5.1.1
 django-cors-headers==4.4.0
+django-filter==24.3
+django-phonenumber-field==8.0.0
+django-phonenumbers==1.0.1
 djangorestframework==3.15.2
+djangorestframework-filters==0.11.1
+djangorestframework-simplejwt==5.3.1
 drf-yasg==1.21.7
 fonttools==4.53.1
 gitdb==4.0.11
@@ -31,6 +36,7 @@ narwhals==1.5.2
 numpy==2.1.0
 packaging==24.1
 pandas==2.2.2
+phonenumbers==8.13.45
 pillow==10.4.0
 protobuf==5.27.3
 psycopg2==2.9.9
@@ -38,6 +44,7 @@ psycopg2-binary==2.9.9
 pyarrow==17.0.0
 pydeck==0.9.1
 Pygments==2.18.0
+PyJWT==2.9.0
 pyparsing==3.1.2
 python-dateutil==2.9.0.post0
 python-decouple==3.8

@@ -18,7 +18,7 @@ class Category(models.Model):
         updated_at = models.DateTimeField(auto_now=True)
 
         class Meta:
-            ordering = ['-date_ajout']
+            ordering = ['-date_ajout'] 
 
         def __str__(self):
              return self.name
